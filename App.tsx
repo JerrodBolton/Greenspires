@@ -1,86 +1,65 @@
-import { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Pressable, ScrollView } from 'react-native';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import OnboardingScreen from './screens/OnboardingScreen';
+import HomeScreen from './screens/HomeScreen';
+import SettingsScreen from './screens/SettingsScreen';
+import type { RootStackParamList } from './types/navigation';
+import { loadPlant, StoredPlant } from './storage/plantStorage';
 
-const PLANT_TYPES = [
-  { id: 'succulent', label: '🌵 Succulent', description: 'Resilient and steady', color: '#2d4a3e' },
-  { id: 'fern', label: '🌿 Fern', description: 'Gentle and grounding', color: '#1f3d2b' },
-  { id: 'flower', label: '🌸 Flower', description: 'Bright and expressive', color: '#3f2f45' },
-];
-
-const DEFAULT_BACKGROUND = '#1c2e22';
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
-  const [selectedPlant, setSelectedPlant] = useState<string | null>(null);
-  const [plantName, setPlantName] = useState('');
+  // AsyncStorage reads are async, so on launch we don't yet know whether
+  // there's a saved plant. Show a brief loading state rather than
+  // flashing Onboarding before redirecting to Home.
+  const [isLoading, setIsLoading] = useState(true);
+  const [savedPlant, setSavedPlant] = useState<StoredPlant | null>(null);
 
-  const selected = PLANT_TYPES.find((p) => p.id === selectedPlant);
-  const backgroundColor = selected ? selected.color : DEFAULT_BACKGROUND;
+  useEffect(() => {
+    loadPlant().then((plant) => {
+      setSavedPlant(plant);
+      setIsLoading(false);
+    });
+  }, []);
+
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator color="#8fd19e" />
+      </View>
+    );
+  }
 
   return (
-    <ScrollView
-      contentContainerStyle={[styles.container, { backgroundColor }]}
-    >
-      <Text style={styles.title}>Welcome to Greenspire</Text>
-      <Text style={styles.subtitle}>Choose a companion to grow alongside you</Text>
-
-      {PLANT_TYPES.map((plant) => (
-        <Pressable
-          key={plant.id}
-          onPress={() => setSelectedPlant(plant.id)}
-          style={[
-            styles.plantOption,
-            selectedPlant === plant.id && styles.plantOptionSelected,
-          ]}
-        >
-          <Text style={styles.plantLabel}>{plant.label}</Text>
-          <Text style={styles.plantDescription}>{plant.description}</Text>
-        </Pressable>
-      ))}
-
-      {selectedPlant && (
-        <View style={styles.nameSection}>
-          <Text style={styles.nameLabel}>What will you name it?</Text>
-          <TextInput
-            style={styles.nameInput}
-            value={plantName}
-            onChangeText={setPlantName}
-            placeholder="Give your plant a name"
-            placeholderTextColor="#a9bcae"
-          />
-        </View>
-      )}
-    </ScrollView>
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName={savedPlant ? 'Home' : 'Onboarding'}
+        screenOptions={{ headerShown: false }}
+      >
+        <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={{
+            headerShown: true,
+            title: 'Settings',
+            headerStyle: { backgroundColor: '#1c2e22' },
+            headerTintColor: '#f4f7f3',
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    paddingTop: 80,
-    paddingHorizontal: 24,
+  loadingContainer: {
+    flex: 1,
     alignItems: 'center',
-  },
-  title: { fontSize: 28, fontWeight: '700', color: '#f4f7f3', marginBottom: 8 },
-  subtitle: { fontSize: 15, color: '#c3d3c6', marginBottom: 32, textAlign: 'center' },
-  plantOption: {
-    width: '100%',
-    backgroundColor: 'rgba(255,255,255,0.08)',
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
-    borderWidth: 2,
-    borderColor: 'rgba(255,255,255,0.1)',
-  },
-  plantOptionSelected: { borderColor: '#8fd19e' },
-  plantLabel: { fontSize: 18, fontWeight: '600', color: '#f4f7f3' },
-  plantDescription: { fontSize: 13, color: '#c3d3c6', marginTop: 2 },
-  nameSection: { width: '100%', marginTop: 16 },
-  nameLabel: { fontSize: 15, color: '#f4f7f3', marginBottom: 8 },
-  nameInput: {
-    backgroundColor: 'rgba(255,255,255,0.12)',
-    borderRadius: 12,
-    padding: 14,
-    fontSize: 16,
-    color: '#f4f7f3',
+    justifyContent: 'center',
+    backgroundColor: '#1c2e22',
   },
 });
