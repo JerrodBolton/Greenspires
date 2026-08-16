@@ -190,7 +190,9 @@ The final repository is expected to include:
 
 ## Demonstration
 
-Application screenshots and the current demonstration recording are available in the [`screenshots`](screenshots/) directory.
+Application screenshots and the current demonstration recording are available in the [`screenshots`](screenshots/) directory.,
+
+Application UML Diagram and the current mapping for the project. [`UML Diagram`](screenshots/UML%20Diagram/2026-08-16_13-31-56.tiff)
 
 ## Project Status
 
