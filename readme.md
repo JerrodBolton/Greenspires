@@ -192,7 +192,7 @@ The final repository is expected to include:
 
 Application screenshots and the current demonstration recording are available in the [`screenshots`](screenshots/) directory.,
 
-Application UML Diagram and the current mapping for the project. [`UML Diagram`](screenshots/UML%20Diagram/2026-08-16_13-31-56.tiff)
+Application UML Diagram and the current mapping for the project. [`UML Diagram`](https://lucid.app/lucidchart/5933c296-cc2e-4d40-b51d-caa7bd1ce281/edit?viewport_loc=-154%2C33%2C1883%2C953%2C0_0&invitationId=inv_9f0ed2d6-9295-48bd-992b-bbcdc8dd5b4f)
 
 ## Project Status
 
