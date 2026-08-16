@@ -174,9 +174,9 @@ The remaining development work will follow an Agile and Unified Process approach
 
 The final repository is expected to include:
 
-- Project proposal
+- [Project proposal](https://docs.google.com/document/d/18GoryGLgd33fsjFrEtMmp290EBDMLFS_Q_eXBmviJtw/edit?usp=sharing)
+- [UML use case diagram](https://lucid.app/lucidchart/5933c296-cc2e-4d40-b51d-caa7bd1ce281/edit?viewport_loc=-154%2C33%2C1883%2C953%2C0_0&invitationId=inv_9f0ed2d6-9295-48bd-992b-bbcdc8dd5b4f)
 - System architecture overview
-- UML use case diagram
 - UML class diagram
 - UML sequence diagram
 - UML deployment diagram
@@ -193,6 +193,8 @@ The final repository is expected to include:
 Application screenshots and the current demonstration recording are available in the [`screenshots`](screenshots/) directory.,
 
 Application UML Diagram and the current mapping for the project. [`UML Diagram`](https://lucid.app/lucidchart/5933c296-cc2e-4d40-b51d-caa7bd1ce281/edit?viewport_loc=-154%2C33%2C1883%2C953%2C0_0&invitationId=inv_9f0ed2d6-9295-48bd-992b-bbcdc8dd5b4f)
+
+ 
 
 ## Project Status
 
